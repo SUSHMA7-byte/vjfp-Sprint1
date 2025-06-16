@@ -15,6 +15,22 @@
     WHERE CURRENT_DATE BETWEEN j.application_start_date AND j.application_end_date
     ORDER BY j.application_end_date ASC;
 
+->Find  Company by ID
+
+        SELECT * FROM Company WHERE company_id = 'C101';  or  SELECT company_id FROM Company WHERE company_name = 'Cognizant';
+
+->Find  Company by Name
+
+        SELECT * FROM Company WHERE company_id = 'C101'; or  SELECT company_name FROM Company WHERE company_id = 'C101'
+
+->Find Candiate by name
+
+        SELECT candidate_id FROM Candidate WHERE name LIKE 'Reethika%';
+
+->Find Candiate by Id
+
+        SELECT * FROM Candidate WHERE candidate_id = 'CAN101';
+
 
 ->Show all companies
  
