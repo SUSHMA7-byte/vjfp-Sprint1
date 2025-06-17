@@ -1,23 +1,27 @@
+-- Table: Company
 CREATE TABLE Company (
-    company_id INT PRIMARY KEY,
+    company_id INT PRIMARY KEY AUTO_INCREMENT,
     company_name VARCHAR(100) NOT NULL,
     industry_type VARCHAR(50),
     contact_email VARCHAR(100) UNIQUE NOT NULL,
     contact_phone VARCHAR(15),
     office_address TEXT
 );
+
+-- Table: Candidate
 CREATE TABLE Candidate (
-    candidate_id INT PRIMARY KEY,
+    candidate_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(15),
     resume_link VARCHAR(255),
     college_name VARCHAR(100),
-    address TEXT,
+    address TEXT
 );
 
+-- Table: Job
 CREATE TABLE Job (
-    job_id INT PRIMARY KEY,
+    job_id INT PRIMARY KEY AUTO_INCREMENT,
     company_id INT NOT NULL,
     job_title VARCHAR(100) NOT NULL,
     job_description TEXT,
@@ -30,8 +34,9 @@ CREATE TABLE Job (
     FOREIGN KEY (company_id) REFERENCES Company(company_id) ON DELETE CASCADE
 );
 
+-- Table: Application
 CREATE TABLE Application (
-    application_id INT PRIMARY KEY,
+    application_id INT PRIMARY KEY AUTO_INCREMENT,
     candidate_id INT,
     job_id INT,
     application_status VARCHAR(20) DEFAULT 'Pending' CHECK (application_status IN ('Pending', 'Reviewed', 'Selected', 'Rejected')),
@@ -40,18 +45,20 @@ CREATE TABLE Application (
     FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
 );
 
+-- Table: Employee
 CREATE TABLE Employee (
-    employee_id INT PRIMARY KEY,
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(100) NOT NULL,
     role VARCHAR(50),
     contact_number VARCHAR(15),
     email VARCHAR(100) UNIQUE NOT NULL,
-    company_id VARCHAR(20),
+    company_id INT,
     FOREIGN KEY (company_id) REFERENCES Company(company_id) ON DELETE CASCADE
 );
 
+-- Table: Interview
 CREATE TABLE Interview (
-    interview_id INT PRIMARY KEY,
+    interview_id INT PRIMARY KEY AUTO_INCREMENT,
     application_id INT,
     recruiter_id INT,
     interview_datetime TIMESTAMP,
@@ -59,6 +66,3 @@ CREATE TABLE Interview (
     FOREIGN KEY (application_id) REFERENCES Application(application_id) ON DELETE CASCADE,
     FOREIGN KEY (recruiter_id) REFERENCES Employee(employee_id) ON DELETE CASCADE
 );
-
-
-
