@@ -1,6 +1,6 @@
-package exception.employee;
+package com.sprint1.exception.employee;
 
-public class EmployeeNotFoundException extends RuntimeException {
+public class EmployeeNotFoundException extends Exception {
   public EmployeeNotFoundException(int id) {
     super("Employee not found with ID: " + id);
   }

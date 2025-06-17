@@ -69,8 +69,12 @@ public class CandidateServiceImpl {
             return;
         }
 
+try{
         applicationDAO.applyForJob(candidate.getCandidateId(), jobId, "Pending");
         System.out.println("Application submitted for job: " + job.getJobTitle());
+ }catch(Exception e){
+    e.printStackTrace();
+ }
     }
 
     private void viewMyApplications(Candidate candidate) {

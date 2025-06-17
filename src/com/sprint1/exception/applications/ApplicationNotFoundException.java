@@ -1,6 +1,6 @@
-package exception.application;
+package com.sprint1.exception.applications;
 
-public class ApplicationNotFoundException extends RuntimeException {
+public class ApplicationNotFoundException extends Exception {
   public ApplicationNotFoundException(int applicationId) {
     super("Application not found with ID: " + applicationId);
   }
