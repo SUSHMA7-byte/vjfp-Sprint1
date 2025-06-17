@@ -120,8 +120,12 @@ public class VirtualJobFairApp {
             newCompany.setContactPhone(phone);
             newCompany.setOfficeAddress(address);
 
-            companyService.registerCompany(newCompany);
-            System.out.println("Registration successful. Please log in to continue.");
+            try {
+              companyService.registerCompany(newCompany);
+              System.out.println("Registration successful. Please log in to continue.");
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
 
           } else if (companyChoice == 2) {
             System.out.print("Enter Registered Email: ");

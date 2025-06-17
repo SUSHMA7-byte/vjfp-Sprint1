@@ -4,6 +4,7 @@ import com.sprint1.dao.CompanyDAO;
 import com.sprint1.dao.JobDAO;
 import com.sprint1.dao.ApplicationDAO;
 import com.sprint1.dao.InterviewDAO;
+import com.sprint1.exception.company.DuplicateCompanyEmailException;
 import com.sprint1.model.*;
 import com.sprint1.service.interview.HRInterviewService;
 import com.sprint1.service.interview.TechnicalInterviewService;
@@ -18,7 +19,7 @@ public class CompanyServiceImpl{
     private ApplicationDAO applicationDAO = new ApplicationDAO();
     private InterviewDAO interviewDAO = new InterviewDAO();
 
-    public void registerCompany(Company company) {
+    public void registerCompany(Company company) throws DuplicateCompanyEmailException {
         companyDAO.insertCompany(company);
     }
 
