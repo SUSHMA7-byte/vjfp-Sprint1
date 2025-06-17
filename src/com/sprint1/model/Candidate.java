@@ -59,6 +59,37 @@ public class Candidate {
         return candidateId;
     }
 
+    public void candidateSignin(Scanner sc){
+        int choice;
+        do {
+            System.out.println("\n===== WELCOME CANDIDATE =====");
+            System.out.println("1. Login");
+            System.out.println("2. Register");
+            System.out.println("3. Back");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice){
+                case 1:
+                    candidateDashboard(sc);
+                    break;
+                case 2:
+                    candidateRegistration(sc);
+                    break;
+                case 3:
+                    System.out.println("Exitting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try Again");
+            }
+        } while(choice != 3);
+    }
+
+    public void candidateRegistration(Scanner sc){
+        System.out.println("\n==== New User ====");
+        // input fields from user and create user using jdbc
+    }
+
     public void candidateDashboard(Scanner sc) {
         JobService jobService = new JobServiceImpl();
 

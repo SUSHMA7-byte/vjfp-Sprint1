@@ -34,7 +34,36 @@ public class Company {
 
     }
 
+    public void companySignin(Scanner sc){
+        int choice;
+        do {
+            System.out.println("\n===== WELCOME COMPANY =====");
+            System.out.println("1. Login");
+            System.out.println("2. Register");
+            System.out.println("3. Back");
+            choice = sc.nextInt();
+            sc.nextLine();
 
+            switch (choice){
+                case 1:
+                    companyDashboard(sc);
+                    break;
+                case 2:
+                    companyRegistration(sc);
+                    break;
+                case 3:
+                    System.out.println("Exitting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try Again");
+            }
+        } while(choice != 3);
+    }
+
+    public void companyRegistration(Scanner sc){
+        System.out.println("\n==== New Company ====");
+        // input fields from user and create user using jdbc
+    }
 
     public void companyDashboard(Scanner sc) {
         int choice;

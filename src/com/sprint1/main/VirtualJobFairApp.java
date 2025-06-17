@@ -21,11 +21,11 @@ public class VirtualJobFairApp {
             switch (mainChoice) {
                 case 1:
                     Candidate candidate = new Candidate();
-                    candidate.candidateDashboard(sc);
+                    candidate.candidateSignin(sc);
                     break;
                 case 2:
                     Company company = new Company();
-                    company.companyDashboard(sc);
+                    company.companySignin(sc);
                     break;
                 case 3:
                     System.out.println("Thank you for using the Virtual Job Fair Portal!");
