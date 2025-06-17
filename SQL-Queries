@@ -1,148 +1,118 @@
-->Job Postings
 
-    SELECT 
-        j.job_id,
-        j.job_title,
-        c.company_name,
-        j.job_location,
-        j.job_type,
-        j.salary_package,
-        j.total_openings,
-        j.application_start_date,
-        j.application_end_date
-    FROM Job j
-    JOIN Company c ON j.company_id = c.company_id
-    WHERE CURRENT_DATE BETWEEN j.application_start_date AND j.application_end_date
-    ORDER BY j.application_end_date ASC;
+-- Job Postings
+        SELECT 
+            j.job_id,
+            j.job_title,
+            c.company_name,
+            j.job_location,
+            j.job_type,
+            j.salary_package,
+            j.total_openings,
+            j.application_start_date,
+            j.application_end_date
+        FROM Job j
+        JOIN Company c ON j.company_id = c.company_id
+        WHERE CURRENT_DATE BETWEEN j.application_start_date AND j.application_end_date
+        ORDER BY j.application_end_date ASC;
 
-->Find  Company by ID
+-- Find Company by ID / Name
+        SELECT * FROM Company WHERE company_id = 101;
+        SELECT company_id FROM Company WHERE company_name = 'Cognizant';
+        SELECT * FROM Company WHERE company_id = 101;
+        SELECT company_name FROM Company WHERE company_id = 101;
 
-        SELECT * FROM Company WHERE company_id = 'C101';  or  SELECT company_id FROM Company WHERE company_name = 'Cognizant';
-
-->Find  Company by Name
-
-        SELECT * FROM Company WHERE company_id = 'C101'; or  SELECT company_name FROM Company WHERE company_id = 'C101'
-
-->Find Candiate by name
-
+-- Find Candidate by Name / ID
         SELECT candidate_id FROM Candidate WHERE name LIKE 'Reethika%';
+        SELECT * FROM Candidate WHERE candidate_id = 201;
 
-->Find Candiate by Id
+-- Show All Companies / Candidates
+        SELECT * FROM Company;
+        SELECT * FROM Candidate;
 
-        SELECT * FROM Candidate WHERE candidate_id = 'CAN101';
+-- Show Job Details with Specific Type
+        SELECT job_id, job_title, job_location, job_type 
+        FROM Job 
+        WHERE job_type = 'Remote';
+        SELECT * FROM Job WHERE job_type IN ('Remote', 'Hybrid', 'On-site');
 
+-- Show Applications for a Specific Candidate
+        SELECT * FROM Application WHERE candidate_id = 201;
 
-->Show all companies
- 
-    SELECT * FROM Company;
+-- Show Interviews Not Scheduled
+        SELECT * FROM Interview WHERE result_status = 'Not Scheduled';
 
-->Show all candidates
+-- List All Jobs with Companies
+        SELECT j.job_id, j.job_title, c.company_name, j.job_type, j.job_location
+        FROM Job j
+        JOIN Company c ON j.company_id = c.company_id;
 
-    SELECT * FROM Candidate;
+-- Candidate Applications with Job Title and Status
+        SELECT a.application_id, c.name, j.job_title, a.application_status
+        FROM Application a
+        JOIN Candidate c ON a.candidate_id = c.candidate_id
+        JOIN Job j ON a.job_id = j.job_id;
 
-->Show job details with job type = 'Remote' (can change accordingly)
+-- Count of Applications per Job
+        SELECT j.job_title, COUNT(a.application_id) AS total_applications
+        FROM Job j
+        LEFT JOIN Application a ON j.job_id = a.job_id
+        GROUP BY j.job_title;
 
-    SELECT job_id, job_title, job_location, job_type 
-    FROM Job 
-    WHERE job_type = 'Remote';                                or          SELECT * FROM Job WHERE job_type = 'Remote/Hybrid/On-site';
+-- Top Companies by Number of Job Postings
+        SELECT c.company_name, COUNT(j.job_id) AS job_count
+        FROM Company c
+        JOIN Job j ON c.company_id = j.company_id
+        GROUP BY c.company_name
+        ORDER BY job_count DESC;
 
-->Show applications for a specific candidate
+-- Candidates Who Got Selected After Interview
+        SELECT c.name, j.job_title, i.result_status
+        FROM Interview i
+        JOIN Application a ON i.application_id = a.application_id
+        JOIN Candidate c ON a.candidate_id = c.candidate_id
+        JOIN Job j ON a.job_id = j.job_id
+        WHERE i.result_status = 'Selected';
 
-    SELECT * FROM Application WHERE candidate_id = 'CAN001';
+-- Jobs with Open Applications Today
+        SELECT job_id, job_title, application_start_date, application_end_date
+        FROM Job
+        WHERE CURRENT_DATE BETWEEN application_start_date AND application_end_date;
 
-->Show interviews that are not scheduled
+-- Companies Listed Based on Job Location
+        SELECT DISTINCT c.company_name, j.job_location
+        FROM Company c
+        JOIN Job j ON c.company_id = j.company_id
+        WHERE j.job_location = 'Hyderabad';
 
-    SELECT * FROM Interview WHERE result_status = 'Not Scheduled';
+-- Applications Grouped by Salary Bracket
+        SELECT 
+          CASE 
+            WHEN j.salary_package < 4 THEN '< 4 LPA'
+            WHEN j.salary_package BETWEEN 4 AND 7 THEN '4â€“7 LPA'
+            WHEN j.salary_package BETWEEN 7 AND 10 THEN '7â€“10 LPA'
+            ELSE '10+ LPA'
+          END AS salary_bracket,
+          COUNT(a.application_id) AS total_applications
+        FROM Application a
+        JOIN Job j ON a.job_id = j.job_id
+        GROUP BY salary_bracket
+        ORDER BY salary_bracket;
 
-->List all jobs and the companies that posted them
+-- Companies Grouped by Location with Job Count
+        SELECT c.company_name, j.job_location, COUNT(j.job_id) AS total_jobs
+        FROM Company c
+        JOIN Job j ON c.company_id = j.company_id
+        GROUP BY c.company_name, j.job_location
+        ORDER BY j.job_location, total_jobs DESC;
 
-    SELECT j.job_id, j.job_title, c.company_name, j.job_type, j.job_location
-    FROM Job j
-    JOIN Company c ON j.company_id = c.company_id;
+-- Total Jobs per Location
+        SELECT j.job_location, COUNT(j.job_id) AS total_jobs_posted
+        FROM Job j
+        GROUP BY j.job_location
+        ORDER BY total_jobs_posted DESC;
 
-->Show candidate applications with job title and status
-
-    SELECT a.application_id, c.name, j.job_title, a.application_status
-    FROM Application a
-    JOIN Candidate c ON a.candidate_id = c.candidate_id
-    JOIN Job j ON a.job_id = j.job_id;
-
--> Count of applications per job
-
-    SELECT j.job_title, COUNT(a.application_id) AS total_applications
-    FROM Job j
-    LEFT JOIN Application a ON j.job_id = a.job_id
-    GROUP BY j.job_title;
-
-->Get top companies by number of job postings
-
-    SELECT c.company_name, COUNT(j.job_id) AS job_count
-    FROM Company c
-    JOIN Job j ON c.company_id = j.company_id
-    GROUP BY c.company_name
-    ORDER BY job_count DESC;
-
-->Get candidates who got selected after the interview
-
-    SELECT c.name, j.job_title, i.result_status
-    FROM Interview i
-    JOIN Application a ON i.application_id = a.application_id
-    JOIN Candidate c ON a.candidate_id = c.candidate_id
-    JOIN Job j ON a.job_id = j.job_id
-    WHERE i.result_status = 'Selected';
-
-->Jobs with open applications as of today
-
-    SELECT job_id, job_title, application_start_date, application_end_date
-    FROM Job
-    WHERE CURRENT_DATE BETWEEN application_start_date AND application_end_date;
-
-
-->Companies Listed Based on Job Location
-
-    SELECT DISTINCT c.company_name, j.job_location
-    FROM Company c
-    JOIN Job j ON c.company_id = j.company_id
-    WHERE j.job_location='Hyderabad';
-
-->Applications Grouped by Job Salary Bracket
-
-    SELECT 
-      CASE 
-        WHEN j.salary_package < 4 THEN '< 4 LPA'
-        WHEN j.salary_package BETWEEN 4 AND 7 THEN '4–7 LPA'
-        WHEN j.salary_package BETWEEN 7 AND 10 THEN '7–10 LPA'
-        ELSE '10+ LPA'
-      END AS salary_bracket,
-      COUNT(a.application_id) AS total_applications
-    FROM Application a
-    JOIN Job j ON a.job_id = j.job_id
-    GROUP BY salary_bracket
-    ORDER BY salary_bracket;
-
-
-->Companies Grouped by Job Location with Job Count
-
-    SELECT c.company_name, j.job_location, COUNT(j.job_id) AS total_jobs
-    FROM Company c
-    JOIN Job j ON c.company_id = j.company_id
-    GROUP BY c.company_name, j.job_location
-    ORDER BY j.job_location, total_jobs DESC;
-
--? Total Jobs per Location
-
-    SELECT j.job_location, COUNT(j.job_id) AS total_jobs_posted
-    FROM Job j
-    GROUP BY j.job_location
-    ORDER BY total_jobs_posted DESC;
-
-
-->Average Salary for Each Job Role
-
-    SELECT  job_title, ROUND(AVG(salary_package), 2) AS avg_salary
-    FROM Job
-    GROUP BY job_title
-    ORDER BY avg_salary DESC;
-
-
-
+-- Average Salary for Each Job Role
+        SELECT job_title, ROUND(AVG(salary_package), 2) AS avg_salary
+        FROM Job
+        GROUP BY job_title
+        ORDER BY avg_salary DESC;
