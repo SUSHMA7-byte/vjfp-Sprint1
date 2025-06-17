@@ -66,7 +66,7 @@ public class CompanyServiceImpl{
         sc.nextLine();
         System.out.println("Enter Job Location: ");
         String location = sc.nextLine();
-        System.out.println("Enter Job Type (Full-Time/Part-Time): ");
+        System.out.println("Enter Job Type (Remote/Hybrid/On-site): ");
         String type = sc.nextLine();
 
         Job job = new Job(0, title, desc, salary, openings, LocalDateTime.now(), LocalDateTime.now().plusDays(30), location, type);

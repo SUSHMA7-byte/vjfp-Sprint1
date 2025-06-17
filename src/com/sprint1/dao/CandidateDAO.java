@@ -29,6 +29,7 @@ public class CandidateDAO {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     generatedId = rs.getInt(1);
+                    candidate.setCandidateId(generatedId);
 
                 }
             }
