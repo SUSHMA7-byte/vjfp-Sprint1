@@ -18,8 +18,8 @@ public class CompanyServiceImpl{
     private ApplicationDAO applicationDAO = new ApplicationDAO();
     private InterviewDAO interviewDAO = new InterviewDAO();
 
-    public int registerCompany(Company company) {
-        return companyDAO.insertCompany(company); // returns generated ID
+    public void registerCompany(Company company) {
+        companyDAO.insertCompany(company);
     }
 
     public Company loginCompany(String email) {
@@ -27,7 +27,7 @@ public class CompanyServiceImpl{
     }
 
 
-    public void companyDashboard(Scanner sc,String companyId) {
+    public void companyDashboard(Scanner sc,int companyId) {
         int choice;
         do {
             System.out.println("\n===== COMPANY DASHBOARD =====");
@@ -54,7 +54,7 @@ public class CompanyServiceImpl{
         } while (choice != 6);
     }
 
-    public void postNewJob(Scanner sc, String companyId) {
+    public void postNewJob(Scanner sc, int companyId) {
         System.out.println("Enter Job Title: ");
         String title = sc.nextLine();
         System.out.println("Enter Job Description: ");
@@ -69,14 +69,14 @@ public class CompanyServiceImpl{
         System.out.println("Enter Job Type (Full-Time/Part-Time): ");
         String type = sc.nextLine();
 
-        Job job = new Job(String.valueOf(0), title, desc, salary, openings, LocalDateTime.now(), LocalDateTime.now().plusDays(30), location, type);
-        job.setCompanyId(String.valueOf(companyId));
+        Job job = new Job(0, title, desc, salary, openings, LocalDateTime.now(), LocalDateTime.now().plusDays(30), location, type);
+        job.setCompanyId(companyId);
 
         jobDAO.postJob(job);
         System.out.println("Job posted successfully.");
     }
 
-    public void viewPostedJobs(String companyId) {
+    public void viewPostedJobs(int companyId) {
         List<Job> jobs = jobDAO.getJobsByCompanyId(companyId);
         if (jobs.isEmpty()) {
             System.out.println("No jobs posted yet.");
@@ -85,7 +85,7 @@ public class CompanyServiceImpl{
         }
     }
 
-    public void viewApplications(String companyId) {
+    public void viewApplications(int companyId) {
         Map<Job, List<Candidate>> apps = applicationDAO.getApplicationsByCompany(companyId);
         if (apps.isEmpty()) {
             System.out.println("No applications found.");
@@ -99,7 +99,7 @@ public class CompanyServiceImpl{
         }
     }
 
-    public void scheduleInterview(Scanner sc, String companyId) {
+    public void scheduleInterview(Scanner sc, int companyId) {
         List<Job> jobs = jobDAO.getJobsByCompanyId(companyId);
         if (jobs.isEmpty()) {
             System.out.println("No jobs posted.");
@@ -150,7 +150,7 @@ public class CompanyServiceImpl{
         System.out.println("Interview scheduled with " + selected.getFullName() + " on " + interview.getInterviewDatetime());
     }
 
-    public void viewScheduledInterviews(String companyId) {
+    public void viewScheduledInterviews(int companyId) {
         List<Interview> interviews = interviewDAO.getInterviewsByCompany(companyId);
         if (interviews.isEmpty()) {
             System.out.println("No interviews scheduled.");

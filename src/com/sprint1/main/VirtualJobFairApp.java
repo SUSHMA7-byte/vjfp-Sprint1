@@ -6,9 +6,6 @@ import com.sprint1.model.Company;
 import com.sprint1.service.candidate.CandidateServiceImpl;
 import com.sprint1.service.company.CompanyServiceImpl;
 
-import com.sprint1.util.DBUtil;
-import java.sql.*;
-
 import java.util.Scanner;
 
 public class VirtualJobFairApp {
@@ -25,28 +22,6 @@ public class VirtualJobFairApp {
             sc.nextLine();
 
             switch (mainChoice) {
-                case 0:
-                    // Test Database Connection
-                    try {
-                        Connection conn = DBUtil.getConnection();
-
-                        String query = "SHOW TABLES";
-                        Statement stmt = conn.createStatement();
-                        ResultSet rs = stmt.executeQuery(query);
-
-                        System.out.println("Tables in the database:");
-                        while (rs.next()) {
-                            System.out.println(rs.getString(1));
-                        }
-
-                        rs.close();
-                        stmt.close();
-                        conn.close();
-                    } catch (Exception e) {
-                        System.out.println("DATABASE ERROR: " + e.getMessage());
-                        e.printStackTrace(); // Don't ship this to prod, but fine for dev/debug
-                    }
-
                 case 1:
                     System.out.println("\n===== CANDIDATE PORTAL =====");
                     System.out.println("1. Register");
@@ -92,7 +67,7 @@ public class VirtualJobFairApp {
                         Candidate loggedInCandidate = candidateDAO.getCandidateByEmail(email);
                         if (loggedInCandidate != null) {
                             currentCandidate = loggedInCandidate;
-                            System.out.println("Login successful. Welcome, " + loggedInCandidate.getFullName());
+                            System.out.println("Login successful.");
                         } else {
                             System.out.println("Login failed. Email not found.");
                             break;
@@ -103,7 +78,7 @@ public class VirtualJobFairApp {
                     }
 
                     if (currentCandidate != null) {
-                        candidateService.candidateDashboard(sc, currentCandidate); // Pass the full object
+                        candidateService.candidateDashboard(sc, currentCandidate);
                     }
                     break;
 
@@ -121,18 +96,28 @@ public class VirtualJobFairApp {
                     if (companyChoice == 1) {
                         System.out.print("Enter Company Name: ");
                         String name = sc.nextLine();
+
                         System.out.print("Enter Industry Type: ");
                         String industry = sc.nextLine();
+
                         System.out.print("Enter Contact Email: ");
                         String email = sc.nextLine();
+
+                        System.out.print("Enter Contact Phone Number: ");
+                        String phone = sc.nextLine();
+
+                        System.out.print("Enter Office Address: ");
+                        String address = sc.nextLine();
 
                         Company newCompany = new Company();
                         newCompany.setCompanyName(name);
                         newCompany.setIndustryType(industry);
                         newCompany.setContactEmail(email);
+                        newCompany.setContactPhone(phone);
+                        newCompany.setOfficeAddress(address);
 
-                        companyId = companyService.registerCompany(newCompany); // returns generated company ID
-                        System.out.println("Registration successful. Your Company ID is: " + companyId);
+                        companyService.registerCompany(newCompany);
+                        System.out.println("Registration successful. Please log in to continue.");
 
                     } else if (companyChoice == 2) {
                         System.out.print("Enter Registered Email: ");
@@ -152,7 +137,7 @@ public class VirtualJobFairApp {
                     }
 
                     if (companyId != -1) {
-                        companyService.companyDashboard(sc, String.valueOf(companyId));
+                        companyService.companyDashboard(sc, companyId);
                     }
                     break;
 

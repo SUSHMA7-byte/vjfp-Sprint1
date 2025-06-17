@@ -3,15 +3,15 @@ package com.sprint1.model;
 import java.time.LocalDateTime;
 
 public class Application {
-    private String application_id;
+    private int application_id;
     private String application_status;
     private LocalDateTime application_date;
 
-    public String getApplication_id() {
+    public int getApplication_id() {
         return application_id;
     }
 
-    public void setApplication_id(String application_id) {
+    public void setApplication_id(int application_id) {
         this.application_id = application_id;
     }
 
@@ -31,7 +31,7 @@ public class Application {
         this.application_date = application_date;
     }
 
-    public Application(String application_id, String application_status, LocalDateTime application_date) {
+    public Application(int application_id, String application_status, LocalDateTime application_date) {
         this.application_id = application_id;
         this.application_status = application_status;
         this.application_date = application_date;

@@ -6,14 +6,13 @@ import java.time.LocalDateTime;
 
 public class HRInterviewService extends Interview {
     public HRInterviewService() {
-        super(String.valueOf(0), null, "", "");
+        super(0, null, "", "");
     }
 
     @Override
     public void conductInterview() {
         System.out.println("Conducting HR interview...");
         System.out.println("Datetime: " + getInterviewDatetime());
-        System.out.println("Feedback: " + getFeedback());
         System.out.println("Result: " + getResultStatus());
     }
 }

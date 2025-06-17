@@ -23,7 +23,8 @@ public class CompanyDAO {
                 company.setCompanyName(rs.getString("company_name"));
                 company.setIndustryType(rs.getString("industry_type"));
                 company.setContactEmail(rs.getString("contact_email"));
-                // Add more fields if present
+                company.setContactPhone(rs.getString("contact_phone"));
+                company.setOfficeAddress(rs.getString("office_address"));
             }
 
         } catch (Exception e) {
@@ -48,6 +49,8 @@ public class CompanyDAO {
                 company.setCompanyName(rs.getString("company_name"));
                 company.setIndustryType(rs.getString("industry_type"));
                 company.setContactEmail(rs.getString("contact_email"));
+                company.setContactPhone(rs.getString("contact_phone"));
+                company.setOfficeAddress(rs.getString("office_address"));
             }
 
         } catch (Exception e) {
@@ -57,33 +60,23 @@ public class CompanyDAO {
         return company;
     }
 
-
-    public int insertCompany(Company company) {
-        String query = "INSERT INTO Company (company_name, industry_type, contact_email) VALUES (?, ?, ?)";
-        int generatedId = -1;
+    public void insertCompany(Company company) {
+        String query = "INSERT INTO Company (company_name, industry_type, contact_email, contact_phone, office_address) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, company.getCompanyName());
             ps.setString(2, company.getIndustryType());
             ps.setString(3, company.getContactEmail());
+            ps.setString(4, company.getContactPhone());
+            ps.setString(5, company.getOfficeAddress());
 
-            int rows = ps.executeUpdate();
-
-            if (rows > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    generatedId = rs.getInt(1);
-                    company.setCompanyId(generatedId); // optional
-                }
-            }
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return generatedId;
     }
 
     public boolean validateCompanyLogin(int companyId, String email) {
@@ -101,6 +94,7 @@ public class CompanyDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return false;
     }
 }

@@ -1,13 +1,13 @@
 package com.sprint1.model;
 
 public class Employee {
-    private String employeeId;
+    private int employeeId;
     private String fullName;
     private String role;
     private String contactNumber;
     private String email;
 
-    public Employee(String employeeId, String fullName, String role, String contactNumber, String email) {
+    public Employee(int employeeId, String fullName, String role, String contactNumber, String email) {
         this.employeeId = employeeId;
         this.fullName = fullName;
         this.role = role;
@@ -15,11 +15,11 @@ public class Employee {
         this.email = email;
     }
 
-    public String getEmployeeId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
 

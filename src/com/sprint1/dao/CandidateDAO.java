@@ -6,59 +6,37 @@ import com.sprint1.util.DBUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CandidateDAO {
 
-    public void registerCandidate(Candidate candidate) {
-        String sql = "INSERT INTO Candidate (candidate_id, name, email, phone, resume_link, college_name, country) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public int registerCandidate(Candidate candidate) {
+        String sql = "INSERT INTO Candidate (name, email, phone, resume_link, college_name, country) VALUES (?, ?, ?, ?, ?, ?)";
+        int generatedId = -1;
 
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            String generatedId = UUID.randomUUID().toString();
-            candidate.setCandidateId(generatedId);
+            ps.setString(1, candidate.getFullName());
+            ps.setString(2, candidate.getEmail());
+            ps.setString(3, candidate.getPhoneNumber());
+            ps.setString(4, candidate.getResumeLink());
+            ps.setString(5, candidate.getCollegeName());
+            ps.setString(6, candidate.getCountry());
 
-            ps.setString(1, candidate.getCandidateId());
-            ps.setString(2, candidate.getFullName());
-            ps.setString(3, candidate.getEmail());
-            ps.setString(4, candidate.getPhoneNumber());
-            ps.setString(5, candidate.getResumeLink());
-            ps.setString(6, candidate.getCollegeName());
-            ps.setString(7, candidate.getCountry());
+            int rows = ps.executeUpdate();
 
-            ps.executeUpdate();
-            System.out.println("Registration successful. Your Candidate ID is: " + candidate.getCandidateId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            if (rows > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
 
-    public Candidate getCandidateById(String candidateId) {
-        String sql = "SELECT * FROM Candidate WHERE candidate_id = ?";
-
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, candidateId);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Candidate(
-                        rs.getString("candidate_id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("resume_link"),
-                        rs.getString("college_name"),
-                        rs.getString("country")
-                );
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return generatedId;
     }
 
     public Candidate getCandidateByEmail(String email) {
@@ -72,7 +50,7 @@ public class CandidateDAO {
 
             if (rs.next()) {
                 return new Candidate(
-                        rs.getString("candidate_id"),
+                        rs.getInt("candidate_id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phone"),
@@ -98,7 +76,7 @@ public class CandidateDAO {
 
             while (rs.next()) {
                 Candidate candidate = new Candidate(
-                        rs.getString("candidate_id"),
+                        rs.getInt("candidate_id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phone"),
@@ -141,6 +119,7 @@ public class CandidateDAO {
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, email);
             return stmt.executeUpdate() > 0;
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com.sprint1.model;
 
 public class Candidate {
-    private String candidateId;
+    private int candidateId;
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -9,7 +9,7 @@ public class Candidate {
     private String college;
     private String country;
 
-    public Candidate(String candidateId, String fullName, String email, String phoneNumber, String resumeLink, String college, String country) {
+    public Candidate(int candidateId, String fullName, String email, String phoneNumber, String resumeLink, String college, String country) {
         this.candidateId = candidateId;
         this.fullName = fullName;
         this.email = email;
@@ -23,7 +23,7 @@ public class Candidate {
 
     }
 
-    public String getCandidateId() { return candidateId; }
+    public int getCandidateId() { return candidateId; }
     public String getFullName() { return fullName; }
     public String getEmail() { return email; }
     public String getPhoneNumber() { return phoneNumber; }
@@ -32,7 +32,7 @@ public class Candidate {
     public String getCountry() { return country; }
 
 
-    public void setCandidateId(String candidateId) {
+    public void setCandidateId(int candidateId) {
         this.candidateId = candidateId;
     }
 

@@ -2,9 +2,7 @@ package com.sprint1.service.candidate;
 
 import com.sprint1.dao.*;
 import com.sprint1.model.*;
-import com.sprint1.service.notification.Notification;
-import com.sprint1.service.notification.EmailNotification;
-import com.sprint1.service.notification.SMSNotification;
+import com.sprint1.service.notification.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -56,7 +54,7 @@ public class CandidateServiceImpl {
 
     private void applyForJob(Scanner sc, Candidate candidate) {
         System.out.print("Enter Job ID to apply: ");
-        String jobId = sc.next();
+        int jobId = sc.nextInt();
         sc.nextLine();
 
         Job job = jobDAO.getJobById(jobId);
@@ -96,7 +94,8 @@ public class CandidateServiceImpl {
         }
 
         for (Interview interview : interviews) {
-            System.out.println("Interview Type: " + interview.getClass().getSimpleName().replace("Service", ""));
+            //System.out.println("Interview Type: " + interview.getClass().getSimpleName().replace("Service", ""));
+            System.out.println("Interview Type: " + interview.getInterviewType());
             System.out.println("Scheduled on: " + interview.getInterviewDatetime());
 
             Notification notification;

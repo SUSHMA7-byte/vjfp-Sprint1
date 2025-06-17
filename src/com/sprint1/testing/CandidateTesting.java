@@ -27,7 +27,7 @@ public class CandidateTesting implements Runnable {
         List<Candidate> candidates = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             candidates.add(new Candidate(
-                    "test_candidate_"+i,
+                    0,
                     "test_candidate_" + i,
                     "test_candidate_" + i + "@mail.com",
                     "",

@@ -3,28 +3,36 @@ package com.sprint1.model;
 import java.time.LocalDateTime;
 
 public abstract class Interview {
-    private String interviewId;
+    private int interviewId;
     private LocalDateTime interviewDatetime;
-    private String feedback;
     private String resultStatus;
-    private String candidateId;
-    private String jobId;
+    private int candidateId;
+    private int jobId;
     private String companyId;
+    private String interviewType;
 
-    public Interview(String interviewId, LocalDateTime interviewDatetime, String feedback, String resultStatus) {
+    public Interview(int interviewId, LocalDateTime interviewDatetime, String resultStatus, String interviewType) {
         this.interviewId = interviewId;
         this.interviewDatetime = interviewDatetime;
-        this.feedback = feedback;
         this.resultStatus = resultStatus;
+        this.interviewType=interviewType;
     }
 
-    public Interview() {}
+    public String getInterviewType() {
+        return interviewType;
+    }
 
-    public String getInterviewId() {
+    public void setInterviewType(String interviewType) {
+        this.interviewType = interviewType;
+    }
+
+
+
+    public int getInterviewId() {
         return interviewId;
     }
 
-    public void setInterviewId(String interviewId) {
+    public void setInterviewId(int interviewId) {
         this.interviewId = interviewId;
     }
 
@@ -36,14 +44,6 @@ public abstract class Interview {
         this.interviewDatetime = interviewDatetime;
     }
 
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
-
     public String getResultStatus() {
         return resultStatus;
     }
@@ -52,19 +52,19 @@ public abstract class Interview {
         this.resultStatus = resultStatus;
     }
 
-    public String getCandidateId() {
+    public int getCandidateId() {
         return candidateId;
     }
 
-    public void setCandidateId(String candidateId) {
+    public void setCandidateId(int candidateId) {
         this.candidateId = candidateId;
     }
 
-    public String getJobId() {
+    public int getJobId() {
         return jobId;
     }
 
-    public void setJobId(String jobId) {
+    public void setJobId(int jobId) {
         this.jobId = jobId;
     }
 
@@ -83,7 +83,6 @@ public abstract class Interview {
         return "Interview{" +
                 "interviewId=" + interviewId +
                 ", interviewDatetime=" + interviewDatetime +
-                ", feedback='" + feedback + '\'' +
                 ", resultStatus='" + resultStatus + '\'' +
                 ", candidateId=" + candidateId +
                 ", jobId=" + jobId +

@@ -1,24 +1,24 @@
 package com.sprint1.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Job {
-    private String jobId;
+    private int jobId;
     private String jobTitle;
     private String jobDescription;
     private double salaryPackage;
     private int totalOpenings;
-    private LocalDate applicationStartDate;
-    private LocalDate applicationEndDate;
+    private LocalDateTime applicationStartDate;
+    private LocalDateTime applicationEndDate;
     private String jobLocation;
     private String jobType;
-    private String companyId;
+    private int companyId;
 
     public Job() {}
 
-    public Job(String jobId, String jobTitle, String jobDescription, double salaryPackage, int totalOpenings,
-               LocalDate applicationStartDate, LocalDate applicationEndDate,
+    public Job(int jobId, String jobTitle, String jobDescription, double salaryPackage, int totalOpenings,
+               LocalDateTime applicationStartDate, LocalDateTime applicationEndDate,
                String jobLocation, String jobType) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
@@ -31,15 +31,13 @@ public class Job {
         this.jobType = jobType;
     }
 
-    public Job(String jobId, String jobTitle, String jobDescription, double salaryPackage, int totalOpenings, LocalDateTime applicationStartDate, LocalDateTime applicationEndDate, String jobLocation, String jobType) {
-    }
 
-    // Getters and setters
-    public String getJobId() {
+
+    public int getJobId() {
         return jobId;
     }
 
-    public void setJobId(String jobId) {
+    public void setJobId(int jobId) {
         this.jobId = jobId;
     }
 
@@ -75,19 +73,19 @@ public class Job {
         this.totalOpenings = totalOpenings;
     }
 
-    public LocalDate getApplicationStartDate() {
+    public LocalDateTime getApplicationStartDate() {
         return applicationStartDate;
     }
 
-    public void setApplicationStartDate(LocalDate applicationStartDate) {
+    public void setApplicationStartDate(LocalDateTime applicationStartDate) {
         this.applicationStartDate = applicationStartDate;
     }
 
-    public LocalDate getApplicationEndDate() {
+    public LocalDateTime getApplicationEndDate() {
         return applicationEndDate;
     }
 
-    public void setApplicationEndDate(LocalDate applicationEndDate) {
+    public void setApplicationEndDate(LocalDateTime applicationEndDate) {
         this.applicationEndDate = applicationEndDate;
     }
 
@@ -107,20 +105,34 @@ public class Job {
         this.jobType = jobType;
     }
 
-    public String getCompanyId() {
+    public int getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
+
     @Override
     public String toString() {
-        return String.format(
-                "Job ID: %s\nTitle: %s\nLocation: %s\nType: %s\nSalary: ₹%.2f\nOpenings: %d\nApplication Window: %s to %s",
-                jobId, jobTitle, jobLocation, jobType, salaryPackage, totalOpenings,
-                applicationStartDate, applicationEndDate
-        );
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        String startDateStr = (applicationStartDate != null) ? applicationStartDate.format(formatter) : "N/A";
+        String endDateStr = (applicationEndDate != null) ? applicationEndDate.format(formatter) : "N/A";
+
+        return "Job Details:\n" +
+                "Job ID            : " + jobId + "\n" +
+                "Title             : " + jobTitle + "\n" +
+                "Description       : " + jobDescription + "\n" +
+                "Salary Package    : ₹" + salaryPackage + "\n" +
+                "Total Openings    : " + totalOpenings + "\n" +
+                "Start Date        : " + startDateStr + "\n" +
+                "End Date          : " + endDateStr + "\n" +
+                "Location          : " + jobLocation + "\n" +
+                "Job Type          : " + jobType + "\n" +
+                "Company ID        : " + companyId + "\n";
     }
+
 }
