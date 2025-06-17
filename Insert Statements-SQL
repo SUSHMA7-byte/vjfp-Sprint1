@@ -1,47 +1,47 @@
 INSERT INTO Company (company_id, company_name, industry_type, contact_email, contact_phone, office_address)
 VALUES 
-('C001', 'Cognizant', 'IT Services', 'contact@cognizant.com', '9876543210', 'Hyderabad, Telangana');
+(101, 'Cognizant', 'IT Services', 'contact@cognizant.com', '9876543210', 'Hyderabad, Telangana');
 
 
 INSERT INTO Candidate (candidate_id, name, email, phone, resume_link, college_name, address)
 VALUES 
-('CAN001', 'Reethika Venturi', 'reethika@gmail.com', '9876543100', 'http://resume.com/reethika', 'KL University', 'Vijayawada, Andhra Pradesh');
+(201, 'Reethika Venturi', 'reethika@gmail.com', '9876543100', 'http://resume.com/reethika', 'KL University', 'Vijayawada, Andhra Pradesh');
 
 
 INSERT INTO Job (job_id, company_id, job_title, job_description, job_location, job_type, salary_package, total_openings, application_start_date, application_end_date)
 VALUES 
-('J001', 'C001', 'Software Engineer', 'Responsible for backend development using Java and Spring Boot.', 'Hyderabad', 'Hybrid', 6.50, 5, '2025-06-10', '2025-06-25');
+(301, 101, 'Software Engineer', 'Responsible for backend development using Java and Spring Boot.', 'Hyderabad', 'Hybrid', 6.50, 5, '2025-06-10', '2025-06-25');
 
 
 --defaults: status - Pending, date - CURRENT_DATE--
 INSERT INTO Application (application_id, candidate_id, job_id)
 VALUES 
-('APP001', 'CAN001', 'J001');
+(401, 201, 301);
 
 --To update the status--
 UPDATE Application
 SET application_status = 'Selected'
-WHERE application_id = 'APP001';
+WHERE application_id = 401;
 
 INSERT INTO Employee (employee_id, full_name, role, contact_number, email, company_id)
 VALUES 
-('EMP001', 'Preeti Singh', 'HR', '9988776655', 'singhpreety217@gmail.com', 'C001');
+(501, 'Preeti Singh', 'HR', '9988776655', 'singhpreety217@gmail.com', 101);
 
 
 --default result_status = 'Not Scheduled'--
 INSERT INTO Interview (interview_id, application_id, recruiter_id, interview_datetime)
 VALUES 
-('INT001', 'APP001', 'EMP001', '2025-06-20 10:30:00');
+(601, 401, 501, '2025-06-20 10:30:00');
 
 --To update the status--
 UPDATE Interview
 SET result_status = 'Scheduled'
-WHERE interview_id = 'INT001';
+WHERE interview_id = 601;
 
 -- Later
 UPDATE Interview
 SET result_status = 'Selected'
-WHERE interview_id = 'INT001';
+WHERE interview_id = 601;
 
 
 
