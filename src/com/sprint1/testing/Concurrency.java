@@ -32,7 +32,7 @@ public class Concurrency {
 //        multithreaded job application creation
         ExecutorService appExecutor = Executors.newFixedThreadPool(threadCount);
         for (int i = 0; i < threadCount && i < candidates.size(); i++) {
-            int candidateId = candidates.get(i).getCandidateId();
+            String candidateId = candidates.get(i).getCandidateId();
             appExecutor.execute(new ApplicationTesting(candidateId, this.jobId));
         }
         appExecutor.shutdown();

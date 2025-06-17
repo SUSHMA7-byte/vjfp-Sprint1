@@ -13,14 +13,14 @@ public class EmployeeDAO {
         String sql = "INSERT INTO Employee (employee_id, full_name, role, contact_number, email, company_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, emp.getEmployee_id());
-            ps.setString(2, emp.getFull_name());
+            ps.setString(1, emp.getEmployeeId());
+            ps.setString(2, emp.getFullName());
             ps.setString(3, emp.getRole());
-            ps.setString(4, emp.getContact_number());
+            ps.setString(4, emp.getContactNumber());
             ps.setString(5, emp.getEmail());
             ps.setString(6, companyId);
             ps.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -40,7 +40,7 @@ public class EmployeeDAO {
                         rs.getString("email")
                 );
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -63,7 +63,7 @@ public class EmployeeDAO {
                 );
                 list.add(emp);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
@@ -75,7 +75,7 @@ public class EmployeeDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, empId);
             ps.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

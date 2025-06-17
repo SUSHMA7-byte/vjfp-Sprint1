@@ -3,23 +3,28 @@ package com.sprint1.model;
 import java.time.LocalDateTime;
 
 public abstract class Interview {
-    private int interviewId;
+    private String interviewId;
     private LocalDateTime interviewDatetime;
     private String feedback;
     private String resultStatus;
+    private String candidateId;
+    private String jobId;
+    private String companyId;
 
-    public Interview(int interviewId, LocalDateTime interviewDatetime, String feedback, String resultStatus) {
+    public Interview(String interviewId, LocalDateTime interviewDatetime, String feedback, String resultStatus) {
         this.interviewId = interviewId;
         this.interviewDatetime = interviewDatetime;
         this.feedback = feedback;
         this.resultStatus = resultStatus;
     }
 
-    public int getInterviewId() {
+    public Interview() {}
+
+    public String getInterviewId() {
         return interviewId;
     }
 
-    public void setInterviewId(int interviewId) {
+    public void setInterviewId(String interviewId) {
         this.interviewId = interviewId;
     }
 
@@ -47,6 +52,30 @@ public abstract class Interview {
         this.resultStatus = resultStatus;
     }
 
+    public String getCandidateId() {
+        return candidateId;
+    }
+
+    public void setCandidateId(String candidateId) {
+        this.candidateId = candidateId;
+    }
+
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
     public abstract void conductInterview();
 
     @Override
@@ -56,6 +85,9 @@ public abstract class Interview {
                 ", interviewDatetime=" + interviewDatetime +
                 ", feedback='" + feedback + '\'' +
                 ", resultStatus='" + resultStatus + '\'' +
+                ", candidateId=" + candidateId +
+                ", jobId=" + jobId +
+                ", companyId=" + companyId +
                 '}';
     }
 }

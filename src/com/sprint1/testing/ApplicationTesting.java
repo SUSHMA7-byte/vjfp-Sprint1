@@ -3,10 +3,10 @@ package com.sprint1.testing;
 import java.sql.SQLException;
 
 public class ApplicationTesting implements Runnable {
-    private int candidateId;
+    private String candidateId;
     private String jobId;
 
-    public ApplicationTesting(int candidateId, String jobId) {
+    public ApplicationTesting(String candidateId, String jobId) {
         this.candidateId = candidateId;
         this.jobId = jobId;
     }

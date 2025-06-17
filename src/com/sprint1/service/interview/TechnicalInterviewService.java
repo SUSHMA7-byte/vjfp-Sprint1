@@ -4,7 +4,7 @@ import com.sprint1.model.Interview;
 
 public class TechnicalInterviewService extends Interview {
     public TechnicalInterviewService() {
-        super(0, null, "", "");
+        super(String.valueOf(0), null, "", "");
     }
 
     @Override

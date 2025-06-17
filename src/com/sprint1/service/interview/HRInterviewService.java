@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class HRInterviewService extends Interview {
     public HRInterviewService() {
-        super(0, null, "", "");
+        super(String.valueOf(0), null, "", "");
     }
 
     @Override

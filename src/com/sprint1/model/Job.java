@@ -1,35 +1,45 @@
 package com.sprint1.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Job {
-    private int jobId;
+    private String jobId;
     private String jobTitle;
     private String jobDescription;
-    private double salary;
+    private double salaryPackage;
     private int totalOpenings;
-    private LocalDateTime application_start_date;
-    private LocalDateTime application_end_date;
+    private LocalDate applicationStartDate;
+    private LocalDate applicationEndDate;
     private String jobLocation;
     private String jobType;
+    private String companyId;
 
-    public Job(int jobId, String jobTitle, String jobDescription, double salary, int totalOpenings, LocalDateTime application_start_date, LocalDateTime application_end_date, String jobLocation, String jobType) {
+    public Job() {}
+
+    public Job(String jobId, String jobTitle, String jobDescription, double salaryPackage, int totalOpenings,
+               LocalDate applicationStartDate, LocalDate applicationEndDate,
+               String jobLocation, String jobType) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
-        this.salary = salary;
+        this.salaryPackage = salaryPackage;
         this.totalOpenings = totalOpenings;
-        this.application_start_date = application_start_date;
-        this.application_end_date = application_end_date;
+        this.applicationStartDate = applicationStartDate;
+        this.applicationEndDate = applicationEndDate;
         this.jobLocation = jobLocation;
         this.jobType = jobType;
     }
 
-    public int getJobId() {
+    public Job(String jobId, String jobTitle, String jobDescription, double salaryPackage, int totalOpenings, LocalDateTime applicationStartDate, LocalDateTime applicationEndDate, String jobLocation, String jobType) {
+    }
+
+    // Getters and setters
+    public String getJobId() {
         return jobId;
     }
 
-    public void setJobId(int jobId) {
+    public void setJobId(String jobId) {
         this.jobId = jobId;
     }
 
@@ -49,12 +59,12 @@ public class Job {
         this.jobDescription = jobDescription;
     }
 
-    public double getSalary() {
-        return salary;
+    public double getSalaryPackage() {
+        return salaryPackage;
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setSalaryPackage(double salaryPackage) {
+        this.salaryPackage = salaryPackage;
     }
 
     public int getTotalOpenings() {
@@ -65,20 +75,20 @@ public class Job {
         this.totalOpenings = totalOpenings;
     }
 
-    public LocalDateTime getApplication_start_date() {
-        return application_start_date;
+    public LocalDate getApplicationStartDate() {
+        return applicationStartDate;
     }
 
-    public void setApplication_start_date(LocalDateTime application_start_date) {
-        this.application_start_date = application_start_date;
+    public void setApplicationStartDate(LocalDate applicationStartDate) {
+        this.applicationStartDate = applicationStartDate;
     }
 
-    public LocalDateTime getApplication_end_date() {
-        return application_end_date;
+    public LocalDate getApplicationEndDate() {
+        return applicationEndDate;
     }
 
-    public void setApplication_end_date(LocalDateTime application_end_date) {
-        this.application_end_date = application_end_date;
+    public void setApplicationEndDate(LocalDate applicationEndDate) {
+        this.applicationEndDate = applicationEndDate;
     }
 
     public String getJobLocation() {
@@ -97,18 +107,20 @@ public class Job {
         this.jobType = jobType;
     }
 
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
-        return "Job{" +
-                "  \njobId=" + jobId +
-                ", \njobTitle='" + jobTitle + '\'' +
-                ", \njobDescription='" + jobDescription + '\'' +
-                ", \nsalary=" + salary +
-                ", \ntotalOpenings=" + totalOpenings +
-                ", \napplication_start_date=" + application_start_date +
-                ", \napplication_end_date=" + application_end_date +
-                ", \njobLocation='" + jobLocation + '\'' +
-                ", \njobType='" + jobType + '\'' +
-                '}';
+        return String.format(
+                "Job ID: %s\nTitle: %s\nLocation: %s\nType: %s\nSalary: ₹%.2f\nOpenings: %d\nApplication Window: %s to %s",
+                jobId, jobTitle, jobLocation, jobType, salaryPackage, totalOpenings,
+                applicationStartDate, applicationEndDate
+        );
     }
 }
