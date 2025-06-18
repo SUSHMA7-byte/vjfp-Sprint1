@@ -1,6 +1,8 @@
 package com.sprint1.main;
 
 import com.sprint1.dao.CandidateDAO;
+import com.sprint1.exception.EmptyFieldException;
+import com.sprint1.exception.InvalidEmailException;
 import com.sprint1.exception.ValidationException;
 import com.sprint1.model.Candidate;
 import com.sprint1.model.Company;
@@ -13,7 +15,7 @@ import com.sprint1.validators.*;
 import java.util.Scanner;
 
 public class VirtualJobFairApp {
-    public static void main(String[] args) throws ValidationException {
+    public static void main(String[] args) throws ValidationException, InvalidEmailException, EmptyFieldException {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -78,10 +80,10 @@ public class VirtualJobFairApp {
                         } catch (Exception e) {
                             System.out.println("Unexpected Error: " + e.getMessage());
                         }
-                    }else if (candidateChoice == 2) {
+                    }else if (candidateChoice == 2){
+                        try{
                         System.out.print("Enter Registered Email: ");
-                        String email = sc.nextLine();
-
+                        String email = ValidationUtil.validateEmail(sc.nextLine());
                         Candidate loggedInCandidate = candidateDAO.getCandidateByEmail(email);
                         if (loggedInCandidate != null) {
                             currentCandidate = loggedInCandidate;
@@ -90,7 +92,12 @@ public class VirtualJobFairApp {
                             System.out.println("Login failed. Email not found.");
                             break;
                         }
-                    } else {
+                    }catch (InvalidEmailException e)
+                        {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    else {
                         System.out.println("Invalid option.");
                         break;
                     }
@@ -111,45 +118,59 @@ public class VirtualJobFairApp {
                     CompanyServiceImpl companyService = new CompanyServiceImpl();
                     int companyId = -1;
 
-                    if (companyChoice == 1) {
-                        System.out.print("Enter Company Name: ");
-                        String name = sc.nextLine();
+                    if (companyChoice == 1){
+                        try {
+                            System.out.print("Enter Company Name: ");
+                            String name = sc.nextLine();
 
-                        System.out.print("Enter Industry Type: ");
-                        String industry = sc.nextLine();
+                            System.out.print("Enter Industry Type: ");
+                            String industry = sc.nextLine();
 
-                        System.out.print("Enter Contact Email: ");
-                        String email = sc.nextLine();
+                            System.out.print("Enter Contact Email: ");
+                            String email = sc.nextLine();
 
-                        System.out.print("Enter Contact Phone Number: ");
-                        String phone = sc.nextLine();
+                            System.out.print("Enter Contact Phone Number: ");
+                            String phone = sc.nextLine();
 
-                        System.out.print("Enter Office Address: ");
-                        String address = sc.nextLine();
+                            System.out.print("Enter Office Address: ");
+                            String address = sc.nextLine();
 
-                        Company newCompany = new Company();
-                        newCompany.setCompanyName(name);
-                        newCompany.setIndustryType(industry);
-                        newCompany.setContactEmail(email);
-                        newCompany.setContactPhone(phone);
-                        newCompany.setOfficeAddress(address);
+                            CompanyValidator.validateCompanyFields(name,industry,email,phone,address);
+                            Company newCompany = new Company(name,industry,email,phone,address);
+//                            newCompany.setCompanyName(name);
+//                            newCompany.setIndustryType(industry);
+//                            newCompany.setContactEmail(email);
+//                            newCompany.setContactPhone(phone);
+//                            newCompany.setOfficeAddress(address);
 
-                        companyService.registerCompany(newCompany);
-                        System.out.println("Registration successful. Please log in to continue.");
-
+                            companyService.registerCompany(newCompany);
+                            System.out.println("Registration successful. Please log in to continue.");
+                        }catch (ValidationException ve) {
+                                System.out.println("Validation Errors:");
+                                for (String error : ve.getErrors()) {
+                                    System.out.println("- " + error);
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Unexpected Error: " + e.getMessage());
+                            }
                     } else if (companyChoice == 2) {
-                        System.out.print("Enter Registered Email: ");
-                        String email = sc.nextLine();
+                        try{
+                            System.out.print("Enter Registered Email: ");
+                            String email = ValidationUtil.validateEmail(sc.nextLine());
 
-                        Company loggedInCompany = companyService.loginCompany(email); // fetch by email
-                        if (loggedInCompany != null) {
-                            companyId = loggedInCompany.getCompanyId();
-                            System.out.println("Login successful. Welcome, " + loggedInCompany.getCompanyName());
-                        } else {
-                            System.out.println("Login failed. Email not found.");
-                            break;
-                        }
-                    } else {
+                            Company loggedInCompany = companyService.loginCompany(email); // fetch by email
+                            if (loggedInCompany != null) {
+                                companyId = loggedInCompany.getCompanyId();
+                                System.out.println("Login successful. Welcome, " + loggedInCompany.getCompanyName());
+                            } else {
+                                System.out.println("Login failed. Email not found.");
+                                break;
+                            }
+                        }catch (InvalidEmailException e)
+                        {
+                            System.out.println(e.getMessage());
+                    }
+            }else {
                         System.out.println("Invalid option.");
                         break;
                     }
