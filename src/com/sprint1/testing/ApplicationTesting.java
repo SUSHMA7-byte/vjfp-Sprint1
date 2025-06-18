@@ -1,12 +1,14 @@
 package com.sprint1.testing;
 
-import java.sql.SQLException;
+import com.sprint1.dao.ApplicationDAO;
+import com.sprint1.dao.JobDAO;
+import com.sprint1.model.Job;
 
 public class ApplicationTesting implements Runnable {
-    private int candidateId;
-    private String jobId;
+    private final int candidateId;
+    private final int jobId;
 
-    public ApplicationTesting(int candidateId, String jobId) {
+    public ApplicationTesting(int candidateId, int jobId) {
         this.candidateId = candidateId;
         this.jobId = jobId;
     }
@@ -14,11 +16,19 @@ public class ApplicationTesting implements Runnable {
     @Override
     public void run() {
         try {
-            // do application creation
+            JobDAO jobDAO = new JobDAO();
+            ApplicationDAO applicationDAO = new ApplicationDAO();
+            Job job = jobDAO.getJobById(jobId);
+            try {
+                applicationDAO.applyForJob(candidateId, jobId, "Pending");
+                System.out.println("Application submitted for job: " + job.getJobTitle());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println("Application Created for Candidate ID: " + candidateId + " for Job ID: " + jobId);
-            throw new SQLException(); // remove in prod
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Error creating application for Candidate ID: " + candidateId);
+            e.printStackTrace();
         }
     }
 }
