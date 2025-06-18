@@ -20,6 +20,15 @@ public class Company {
         this.officeAddress = officeAddress;
     }
 
+    public Company( String companyName, String industryType, String contactEmail, String contactPhone, String officeAddress) {
+        //this.companyId = companyId;
+        this.companyName = companyName;
+        this.industryType = industryType;
+        this.contactEmail = contactEmail;
+        this.contactPhone = contactPhone;
+        this.officeAddress = officeAddress;
+    }
+
     public int getCompanyId() {
         return companyId;
     }

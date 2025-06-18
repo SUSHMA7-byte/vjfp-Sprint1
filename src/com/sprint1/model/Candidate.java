@@ -19,6 +19,16 @@ public class Candidate {
         this.country = country;
     }
 
+    public Candidate( String fullName, String email, String phoneNumber, String resumeLink, String college, String country) {
+        // this.candidateId = candidateId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.resumeLink = resumeLink;
+        this.college = college;
+        this.country = country;
+    }
+
     public Candidate() {
 
     }
