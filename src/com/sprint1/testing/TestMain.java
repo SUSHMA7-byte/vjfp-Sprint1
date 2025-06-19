@@ -12,7 +12,7 @@ public class TestMain {
     private Scanner sc;
     private Concurrency concurrency;
     private final int THREAD_COUNT = 10;
-    private final int JOB_ID = 1;
+    private int JOB_ID = 1;
 
 
     public void runFullTest() {
@@ -27,6 +27,10 @@ public class TestMain {
     }
 
     public void createTestApplications() {
+        System.out.println("Enter the job ID for which to create applications: ");
+        int job_id = sc.nextInt();
+        sc.nextLine();
+        JOB_ID = job_id;
         System.out.println("Creating test applications (multi-threaded)...");
         concurrency.runApplicationCreationOnly();
     }
